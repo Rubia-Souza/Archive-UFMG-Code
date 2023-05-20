@@ -1,0 +1,17 @@
+# Pesseio-Do-Cavalo
+Implementação do Algoritmo "Passeio do Cavalo" para a disciplina de Matemática Discreta do 2° Período do Curso de Ciência da Computação na UFMG
+
+# Ambiente Computacional
+Processador: Intel(R) Core(TM) i5-7200U CPU @ 2.50GHz | 2701 Mhz, 2 Núcleo(s), 4 Processador(es) Lógico(s)
+
+RAM instalada: 8,00 GB (utilizável: 7,88 GB)
+
+Tipo de sistema: Sistema operacional de 64 bits, processador baseado em x64
+
+Linguagem utilizada: C11
+
+Compilador utilizado: gcc da GNU Compiler Collection
+
+Flags compilação: -std=c11 -g -Wall
+
+Sistemas operacionais: Windows 10, Linux (Ubuntu 20.4)
