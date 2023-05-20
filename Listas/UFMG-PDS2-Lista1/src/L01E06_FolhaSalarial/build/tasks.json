@@ -1,0 +1,52 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe arquivo de build ativo",
+            "command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${fileDirname}\\structs\\Jogador\\*.hpp",
+                "${fileDirname}\\structs\\Jogador\\*.cpp",
+                "${fileDirname}\\structs\\Time\\*.hpp",
+                "${fileDirname}\\structs\\Time\\*.cpp",
+                "${fileDirname}\\structs\\RegistroNBA\\*.hpp",
+                "${fileDirname}\\structs\\RegistroNBA\\*.cpp",
+                "${fileDirname}\\*.hpp",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:\\msys64\\mingw64\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarefa gerada pelo Depurador."
+        },
+        {
+            "dependsOn": [
+                "C/C++: g++.exe arquivo de build ativo"
+            ],
+            "dependsOrder": "sequence",
+            "type": "shell",
+            "label": "C/C++: Executar app.exe",
+            "command": "cd ./src; ./app.exe;",
+            "args": [],
+            "options": {},
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Tarefa ao executar."
+        }
+    ]
+}

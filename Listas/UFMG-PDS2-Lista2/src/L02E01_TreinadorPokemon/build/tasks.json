@@ -1,0 +1,57 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe arquivo de build ativo",
+            "command": "C:\\Compiladores\\msys64\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${fileDirname}\\classes\\Pokebola\\*.hpp",
+                "${fileDirname}\\classes\\Pokebola\\*.cpp",
+                "${fileDirname}\\classes\\EvolutionBall\\*.hpp",
+                "${fileDirname}\\classes\\EvolutionBall\\*.cpp",
+                "${fileDirname}\\classes\\HealthBall\\*.hpp",
+                "${fileDirname}\\classes\\HealthBall\\*.cpp",
+                "${fileDirname}\\classes\\Pokemon\\*.hpp",
+                "${fileDirname}\\classes\\Pokemon\\*.cpp",
+                "${fileDirname}\\classes\\PokemonCapturado\\*.hpp",
+                "${fileDirname}\\classes\\PokemonCapturado\\*.cpp",
+                "${fileDirname}\\classes\\Treinador\\*.hpp",
+                "${fileDirname}\\classes\\Treinador\\*.cpp",
+                "${file}",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:\\Compiladores\\msys64\\mingw64\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarefa gerada pelo Depurador."
+        },
+        {
+            "dependsOn": [
+                "C/C++: g++.exe arquivo de build ativo"
+            ],
+            "dependsOrder": "sequence",
+            "type": "shell",
+            "label": "C/C++: Executar app.exe",
+            "command": "cd ./src; ./app.exe;",
+            "args": [],
+            "options": {},
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Tarefa ao executar."
+        }
+    ]
+}

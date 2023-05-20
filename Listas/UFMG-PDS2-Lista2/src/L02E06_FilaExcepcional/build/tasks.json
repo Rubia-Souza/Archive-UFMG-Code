@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "C/C++: g++.exe arquivo de build ativo",
+            "command": "C:\\Compiladores\\msys64\\mingw64\\bin\\g++.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${file}",
+                "${fileDirname}\\classes\\Exceptions\\*.hpp",
+                "${fileDirname}\\classes\\LimitedQueue\\*.hpp",
+                "${fileDirname}\\classes\\LimitedQueue\\*.cpp",
+                "-o",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "C:\\Compiladores\\msys64\\mingw64\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "Tarefa gerada pelo Depurador."
+        },
+        {
+            "dependsOn": [
+                "C/C++: g++.exe arquivo de build ativo"
+            ],
+            "dependsOrder": "sequence",
+            "type": "shell",
+            "label": "C/C++: Executar app.exe",
+            "command": "cd ./src; ./app.exe;",
+            "args": [],
+            "options": {},
+            "problemMatcher": [],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "detail": "Tarefa ao executar."
+        }
+    ]
+}
