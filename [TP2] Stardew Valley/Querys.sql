@@ -30,7 +30,9 @@ SELECT T.nome, T.data
 
 -- Forma 2: Utilizando LIKE
 SELECT T.nome, T.data
-    FROM tarefa AS T, fazendeiro AS F
+    FROM tarefa AS T
+    INNER JOIN fazendeiro AS F
+        ON T.cnpjFazendeiro = F.cnpj 
     WHERE F.nome LIKE('Amora Bettany');
 
 ----- Listar os Telefones de todos Compradores
