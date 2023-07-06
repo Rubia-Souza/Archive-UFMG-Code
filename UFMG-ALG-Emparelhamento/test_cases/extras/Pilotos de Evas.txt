@@ -1,0 +1,15 @@
+5 5 14
+Shinji EVA1
+Shinji EVA2
+Rei EVA1
+Rei EVA2
+Rei EVA3
+Rei EVA4
+Kowaru EVA1
+Kowaru EVA2
+Kowaru EVA3
+Kowaru EVA4
+Asuka EVA5
+Toji EVA3
+Toji EVA4
+Toji EVA5

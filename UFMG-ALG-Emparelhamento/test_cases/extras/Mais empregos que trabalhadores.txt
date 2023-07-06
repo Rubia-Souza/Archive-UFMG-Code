@@ -1,0 +1,5 @@
+2 3 4
+Trab1 Emp1
+Trab1 Emp3
+Trab2 Emp2
+Trab2 Emp3
