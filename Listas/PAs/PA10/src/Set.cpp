@@ -1,185 +1,200 @@
+#include <string>
+#include <iostream>
+
 #include "Set.hpp"
+#include "TabelaHash.hpp"
 
-// Construtor
-StringSet::StringSet(int tamanho) {
-    tamanhoOriginal = tamanho;
-    tamanhoTabela = 2 * tamanhoOriginal; // Tamanho inicial da tabela
+Set::Set(const unsigned int tamanho) {
+    tamanhoInicial = tamanho;
+    tamanhoTabela = 2 * tamanhoInicial;
     tamanhoConjunto = 0;
-    tabela = new ElementoTabela[tamanhoTabela];
 
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        tabela[i].vazio = true; // Marcando todas as posições como vazias
-        tabela[i].retirada = false;
+    tabela = new TabelaHash[tamanhoTabela];
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        tabela[i].setVazio(true);
+        tabela[i].setRetirada(false);
     }
+
+    return;
 }
 
-// Destrutor
-StringSet::~StringSet() {
+Set::~Set() {
     delete[] tabela;
+    return;
 }
 
-// Função Hash
-int StringSet::Hash(string s) {
-    int hash = 0;
-    for (char c : s) {
-        hash = (hash * 31 + static_cast<int>(c)) % tamanhoTabela;
+int Set::calcularHash(const string palavra) {
+    int idHash = 0;
+
+    for(char caracter : palavra) {
+        idHash = (idHash * 31 + static_cast<int>(caracter)) % tamanhoTabela;
     }
-    return hash;
+
+    return idHash;
 }
 
-// Função Rehash
-void StringSet::Rehash(int pos) {
+void Set::recriarHash(const int posicao) {
     int i = 1;
-    int newPos = (pos + i) % tamanhoTabela;
-    while (!tabela[newPos].vazio && i <= tamanhoTabela) {
-        newPos = (pos + (++i)) % tamanhoTabela;
+    int novaPosicao = (posicao + i) % tamanhoTabela;
+
+    while(!tabela[novaPosicao].estaVazio() && i <= tamanhoTabela) {
+        novaPosicao = (posicao + (i++)) % tamanhoTabela;
     }
-    if (i <= tamanhoTabela) {
-        tabela[newPos].dado = tabela[pos].dado;
-        tabela[newPos].vazio = false;
-        tabela[newPos].retirada = false;
-        tabela[pos].vazio = true;
-    } else {
-        Resize(2 * tamanhoTabela);
+
+    if(i <= tamanhoTabela) {
+        tabela[novaPosicao].setDado(tabela[posicao].getDado());
+        tabela[novaPosicao].setVazio(false);
+        tabela[novaPosicao].setRetirada(false);
+
+        tabela[posicao].setVazio(true);
     }
+    else {
+        ajustarTamanho(2 * tamanhoTabela);
+    }
+
+    return;
 }
 
-// Função Resize
-void StringSet::Resize(size_t newSize) {
-    ElementoTabela* novaTabela = new ElementoTabela[newSize];
-    for (unsigned i = 0; i < newSize; ++i) {
-        novaTabela[i].vazio = true;
-        novaTabela[i].retirada = false;
+void Set::ajustarTamanho(const unsigned int novoTamanho) {
+    TabelaHash* novaTabela = new TabelaHash[novoTamanho];
+    for(unsigned int i = 0; i < novoTamanho; i++) {
+        novaTabela[i].setVazio(true);
+        novaTabela[i].setRetirada(false);
     }
 
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        if (!tabela[i].vazio && !tabela[i].retirada) {
-            int newPos = Hash(tabela[i].dado);
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada()) {
+            int novaPosicao = calcularHash(tabela[i].getDado());
             int j = 1;
-            while (!novaTabela[newPos].vazio) {
-                newPos = (newPos + j) % newSize;
+
+            while(!novaTabela[novaPosicao].estaVazio()) {
+                novaPosicao = (novaPosicao + j) % novoTamanho;
                 j++;
             }
-            novaTabela[newPos].dado = tabela[i].dado;
-            novaTabela[newPos].vazio = false;
+
+            novaTabela[novaPosicao].setDado(tabela[i].getDado());
+            novaTabela[novaPosicao].setVazio(false);
         }
     }
 
     delete[] tabela;
+    
     tabela = novaTabela;
-    tamanhoTabela = newSize;
+    tamanhoTabela = novoTamanho;
+
+    return;
 }
 
-// Função Inserir
-void StringSet::Inserir(string s) {
-    int pos = Hash(s);
+void Set::inserir(const string palavra) {
+    int posicaoAlvo = calcularHash(palavra);
     int i = 1;
 
-    while (!tabela[pos].vazio && tabela[pos].dado != s && i <= tamanhoTabela) {
-        pos = (pos + i) % tamanhoTabela;
-        ++i;
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+        posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
+        i++;
     }
 
-    if (i > tamanhoTabela) {
-        Resize(2 * tamanhoTabela);
-        Inserir(s);
-    } else {
-        if (tabela[pos].vazio || tabela[pos].retirada) {
-            tabela[pos].dado = s;
-            tabela[pos].vazio = false;
-            tabela[pos].retirada = false;
-            tamanhoConjunto++;
-        }
+    if(i > tamanhoTabela) {
+        ajustarTamanho(2 * tamanhoTabela);
+        inserir(palavra);
     }
+    else if(tabela[posicaoAlvo].estaVazio() || tabela[posicaoAlvo].foiRetirada()) {
+        tabela[posicaoAlvo].setDado(palavra);
+        tabela[posicaoAlvo].setVazio(false);
+        tabela[posicaoAlvo].setRetirada(false);
+
+        tamanhoConjunto++;
+    }
+
+    return;
 }
 
-// Função Remover
-void StringSet::Remover(string s) {
-    int pos = Hash(s);
+void Set::remover(const string palavra) {
+    int posicaoAlvo = calcularHash(palavra);
     int i = 1;
 
-    while (!tabela[pos].vazio && tabela[pos].dado != s && i <= tamanhoTabela) {
-        pos = (pos + i) % tamanhoTabela;
-        ++i;
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+        posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
+        i++;
     }
 
-    if (!tabela[pos].vazio && tabela[pos].dado == s) {
-        tabela[pos].vazio = true;
-        tabela[pos].retirada = true;
+    if(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == palavra) {
+        tabela[posicaoAlvo].setVazio(true);
+        tabela[posicaoAlvo].setRetirada(true);
+
         tamanhoConjunto--;
     }
+
+    return;
 }
 
-// Função Pertence
-bool StringSet::Pertence(string s) {
-    int pos = Hash(s);
+bool Set::pertence(const string palavra) {
+    int posicaoAlvo = calcularHash(palavra);
     int i = 1;
 
-    while (!tabela[pos].vazio && tabela[pos].dado != s && i <= tamanhoTabela) {
-        pos = (pos + i) % tamanhoTabela;
-        ++i;
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+        posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
+        i++;
     }
 
-    return (!tabela[pos].vazio && tabela[pos].dado == s && !tabela[pos].retirada);
+    return (!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == palavra && !tabela[posicaoAlvo].foiRetirada());
 }
 
-// Função Interseção
-StringSet* StringSet::Intersecao(StringSet* S) {
-    StringSet* result = new StringSet(tamanhoOriginal);
+Set* Set::intersecao(Set* outroConjunto) {
+    Set* conjuntoIntersecao = new Set(tamanhoInicial);
 
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        if (!tabela[i].vazio && !tabela[i].retirada && S->Pertence(tabela[i].dado)) {
-            result->Inserir(tabela[i].dado);
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && outroConjunto->pertence(tabela[i].getDado())) {
+            conjuntoIntersecao->inserir(tabela[i].getDado());
         }
     }
 
-    return result;
+    return conjuntoIntersecao;
 }
 
-// Função União
-StringSet* StringSet::Uniao(StringSet* S) {
-    StringSet* result = new StringSet(tamanhoOriginal);
+Set* Set::uniao(Set* outroConjunto) {
+    Set* conjuntoUniao = new Set(tamanhoInicial);
 
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        if (!tabela[i].vazio && !tabela[i].retirada) {
-            result->Inserir(tabela[i].dado);
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada()) {
+            conjuntoUniao->inserir(tabela[i].getDado());
         }
     }
 
-    for (int i = 0; i < S->tamanhoTabela; ++i) {
-        if (!S->tabela[i].vazio && !S->tabela[i].retirada) {
-            result->Inserir(S->tabela[i].dado);
+    for(unsigned int i = 0; i < outroConjunto->tamanhoTabela; i++) {
+        if(!outroConjunto->tabela[i].estaVazio() && !outroConjunto->tabela[i].foiRetirada()) {
+            conjuntoUniao->inserir(outroConjunto->tabela[i].getDado());
         }
     }
 
-    return result;
+    return conjuntoUniao;
 }
 
-// Função Diferença Simétrica
-StringSet* StringSet::DiferencaSimetrica(StringSet* S) {
-    StringSet* result = new StringSet(tamanhoOriginal);
+Set* Set::diferencaSimetrica(Set* outroConjunto) {
+    Set* conjuntoDiferencaSimetrica = new Set(tamanhoInicial);
 
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        if (!tabela[i].vazio && !tabela[i].retirada && !S->Pertence(tabela[i].dado)) {
-            result->Inserir(tabela[i].dado);
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && !outroConjunto->pertence(tabela[i].getDado())) {
+            conjuntoDiferencaSimetrica->inserir(tabela[i].getDado());
         }
     }
 
-    for (int i = 0; i < S->tamanhoTabela; ++i) {
-        if (!S->tabela[i].vazio && !S->tabela[i].retirada && !Pertence(S->tabela[i].dado)) {
-            result->Inserir(S->tabela[i].dado);
+    for(unsigned int i = 0; i < outroConjunto->tamanhoTabela; i++) {
+        if(!outroConjunto->tabela[i].estaVazio() && !outroConjunto->tabela[i].foiRetirada() && !pertence(outroConjunto->tabela[i].getDado())) {
+            conjuntoDiferencaSimetrica->inserir(outroConjunto->tabela[i].getDado());
         }
     }
 
-    return result;
+    return conjuntoDiferencaSimetrica;
 }
 
-// Função Imprimir
-void StringSet::Imprimir() {
-    for (int i = 0; i < tamanhoTabela; ++i) {
-        if (!tabela[i].vazio && !tabela[i].retirada) {
-            cout << tabela[i].dado << " ";
+void Set::print() {
+    for(unsigned int i = 0; i < tamanhoTabela; i++) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada()) {
+            cout << tabela[i].getDado() << " ";
         }
     }
+
     cout << endl;
+    return;
 }

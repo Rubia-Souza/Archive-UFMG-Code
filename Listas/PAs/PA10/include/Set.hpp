@@ -1,43 +1,36 @@
 #ifndef SET_HPP
 #define SET_HPP
 
-#include <bits/stdc++.h>
 #include <string>
-#include <iostream>
+#include "TabelaHash.hpp"
+
 using namespace std;
 
-typedef struct s_table_elem{
-    string dado;
-    bool vazio;
-    bool retirada;
-
-} ElementoTabela;
-
-class StringSet{
+class Set {
+    private:
+        unsigned int tamanhoInicial = 0;
+        unsigned int tamanhoTabela = 0;
+        unsigned int tamanhoConjunto = 0;
+        TabelaHash* tabela = nullptr;
 
     public:
-        StringSet(int tamanho);
-        ~StringSet();
+        Set(const unsigned int tamanho);
+        virtual ~Set();
 
-        void Inserir(string s);
-        void Remover(string s);
-        bool Pertence(string s);
+        void inserir(const string palavra);
+        void remover(const string palavra);
+        bool pertence(const string palavra);
         
-        StringSet* Intersecao(StringSet* S);
-        StringSet* Uniao(StringSet* S);
-        StringSet* DiferencaSimetrica(StringSet* S);
+        Set* intersecao(Set* outroSet);
+        Set* uniao(Set* outroSet);
+        Set* diferencaSimetrica(Set* outroSet);
 
-        void Imprimir();
+        void print();
 
     private:
-        int tamanhoOriginal;
-        int tamanhoTabela;
-        int tamanhoConjunto;
-        ElementoTabela* tabela;
-
-        int Hash(string s);
-        void Rehash(int pos);
-        void Resize(size_t tamanho);
+        int calcularHash(const string palavra);
+        void recriarHash(const int posicao);
+        void ajustarTamanho(const unsigned int novoTamanho);
 };
 
 
