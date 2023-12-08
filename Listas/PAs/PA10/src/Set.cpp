@@ -33,7 +33,7 @@ int Set::calcularHash(const string palavra) {
     return idHash;
 }
 
-void Set::recriarHash(const int posicao) {
+void Set::recriarHash(const unsigned int posicao) {
     int i = 1;
     int novaPosicao = (posicao + i) % tamanhoTabela;
 
@@ -140,11 +140,11 @@ bool Set::pertence(const string palavra) {
     return (!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == palavra && !tabela[posicaoAlvo].foiRetirada());
 }
 
-Set* Set::intersecao(Set* outroConjunto) {
+Set* Set::intersecao(Set& outroConjunto) {
     Set* conjuntoIntersecao = new Set(tamanhoInicial);
 
     for(unsigned int i = 0; i < tamanhoTabela; i++) {
-        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && outroConjunto->pertence(tabela[i].getDado())) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && outroConjunto.pertence(tabela[i].getDado())) {
             conjuntoIntersecao->inserir(tabela[i].getDado());
         }
     }
@@ -152,7 +152,7 @@ Set* Set::intersecao(Set* outroConjunto) {
     return conjuntoIntersecao;
 }
 
-Set* Set::uniao(Set* outroConjunto) {
+Set* Set::uniao(Set& outroConjunto) {
     Set* conjuntoUniao = new Set(tamanhoInicial);
 
     for(unsigned int i = 0; i < tamanhoTabela; i++) {
@@ -161,27 +161,27 @@ Set* Set::uniao(Set* outroConjunto) {
         }
     }
 
-    for(unsigned int i = 0; i < outroConjunto->tamanhoTabela; i++) {
-        if(!outroConjunto->tabela[i].estaVazio() && !outroConjunto->tabela[i].foiRetirada()) {
-            conjuntoUniao->inserir(outroConjunto->tabela[i].getDado());
+    for(unsigned int i = 0; i < outroConjunto.getTamanhoTabela(); i++) {
+        if(!outroConjunto.estaVazio(i) && !outroConjunto.foiRetirada(i)) {
+            conjuntoUniao->inserir(outroConjunto.getDado(i));
         }
     }
 
     return conjuntoUniao;
 }
 
-Set* Set::diferencaSimetrica(Set* outroConjunto) {
+Set* Set::diferencaSimetrica(Set& outroConjunto) {
     Set* conjuntoDiferencaSimetrica = new Set(tamanhoInicial);
 
     for(unsigned int i = 0; i < tamanhoTabela; i++) {
-        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && !outroConjunto->pertence(tabela[i].getDado())) {
+        if(!tabela[i].estaVazio() && !tabela[i].foiRetirada() && !outroConjunto.pertence(tabela[i].getDado())) {
             conjuntoDiferencaSimetrica->inserir(tabela[i].getDado());
         }
     }
 
-    for(unsigned int i = 0; i < outroConjunto->tamanhoTabela; i++) {
-        if(!outroConjunto->tabela[i].estaVazio() && !outroConjunto->tabela[i].foiRetirada() && !pertence(outroConjunto->tabela[i].getDado())) {
-            conjuntoDiferencaSimetrica->inserir(outroConjunto->tabela[i].getDado());
+    for(unsigned int i = 0; i < outroConjunto.getTamanhoTabela(); i++) {
+        if(!outroConjunto.estaVazio(i) && !outroConjunto.foiRetirada(i) && !pertence(outroConjunto.getDado(i))) {
+            conjuntoDiferencaSimetrica->inserir(outroConjunto.getDado(i));
         }
     }
 
@@ -197,4 +197,28 @@ void Set::print() {
 
     cout << endl;
     return;
+}
+
+unsigned int Set::getTamanhoTabela() const {
+    return tamanhoTabela;
+}
+
+unsigned int Set::getTamanho() const {
+    return tamanhoConjunto;
+}
+
+TabelaHash* Set::getTabela() {
+    return tabela;
+}
+
+bool Set::estaVazio(const unsigned int posicao) {
+    return tabela[posicao].estaVazio();
+}
+
+bool Set::foiRetirada(const unsigned int posicao) {
+    return tabela[posicao].foiRetirada();
+}
+
+string Set::getDado(const unsigned int posicao) {
+    return tabela[posicao].getDado();
 }

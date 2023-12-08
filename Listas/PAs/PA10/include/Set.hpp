@@ -21,15 +21,23 @@ class Set {
         void remover(const string palavra);
         bool pertence(const string palavra);
         
-        Set* intersecao(Set* outroSet);
-        Set* uniao(Set* outroSet);
-        Set* diferencaSimetrica(Set* outroSet);
+        Set* intersecao(Set& outroSet);
+        Set* uniao(Set& outroSet);
+        Set* diferencaSimetrica(Set& outroSet);
+
+        unsigned int getTamanho() const;
+        unsigned int getTamanhoTabela() const;
+        TabelaHash* getTabela();
+
+        bool estaVazio(const unsigned int posicao);
+        bool foiRetirada(const unsigned int posicao);
+        string getDado(const unsigned int posicao);
 
         void print();
 
     private:
         int calcularHash(const string palavra);
-        void recriarHash(const int posicao);
+        void recriarHash(const unsigned int posicao);
         void ajustarTamanho(const unsigned int novoTamanho);
 };
 

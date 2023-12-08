@@ -63,7 +63,7 @@ int main(int argc, char** argv){
             case(COMANDO_UNIAO): {
                 cout << "A uniao dos conjuntos e: ";
                 Set* l = LeConjunto();
-                Set* u = s->uniao(l);
+                Set* u = s->uniao(*l);
                 
                 u->print();
                 
@@ -75,7 +75,7 @@ int main(int argc, char** argv){
             case(COMANDO_INTERSECAO): {
                 cout << "A intersecao dos conjuntos e: ";
                 Set* l = LeConjunto();
-                Set* t = s->intersecao(l);
+                Set* t = s->intersecao(*l);
 
                 t->print();
 
@@ -88,7 +88,7 @@ int main(int argc, char** argv){
                 cout << "A diferenca simetrica dos conjuntos e: ";
                 
                 Set* l = LeConjunto();
-                Set* d = s->diferencaSimetrica(l);
+                Set* d = s->diferencaSimetrica(*l);
                 
                 d->print();
                 
