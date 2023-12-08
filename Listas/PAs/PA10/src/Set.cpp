@@ -34,7 +34,7 @@ int Set::calcularHash(const std::string dado) {
 }
 
 void Set::recriarHash(const unsigned int posicao) {
-    int i = 1;
+    unsigned int i = 1;
     int novaPosicao = (posicao + i) % tamanhoTabela;
 
     while(!tabela[novaPosicao].estaVazio() && i <= tamanhoTabela) {
@@ -87,7 +87,7 @@ void Set::ajustarTamanho(const unsigned int novoTamanho) {
 
 void Set::inserir(const std::string dado) {
     int posicaoAlvo = calcularHash(dado);
-    int i = 1;
+    unsigned int i = 1;
 
     while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
@@ -111,7 +111,7 @@ void Set::inserir(const std::string dado) {
 
 void Set::remover(const std::string dado) {
     int posicaoAlvo = calcularHash(dado);
-    int i = 1;
+    unsigned int i = 1;
 
     while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
@@ -130,7 +130,7 @@ void Set::remover(const std::string dado) {
 
 bool Set::pertence(const std::string dado) {
     int posicaoAlvo = calcularHash(dado);
-    int i = 1;
+    unsigned int i = 1;
 
     while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;

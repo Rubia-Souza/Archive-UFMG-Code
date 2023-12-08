@@ -1,35 +1,30 @@
+# cc and flags
 CC = g++
-CFLAGS = -Wall -std=c++11 -Iinclude -pg
-LDFLAGS = -g -lm
+CXXFLAGS = -std=c++11 -g -Wall
 
-SRC_DIR = src
-OBJ_DIR = obj
-BIN_DIR = bin
+# folders
+INCLUDE_FOLDER = ./include/
+BIN_FOLDER = ./bin/
+OBJ_FOLDER = ./obj/
+SRC_FOLDER = ./src/
 
-SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
-OBJ_FILES = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_FILES))
-EXECUTABLE = $(BIN_DIR)/pa10.out
+# all sources, objs, and header files
+TARGET = pa10.out
+SRC = $(wildcard $(SRC_FOLDER)*.cpp)
+OBJ = $(patsubst $(SRC_FOLDER)%.cpp, $(OBJ_FOLDER)%.o, $(SRC))
 
-all: $(EXECUTABLE)
+$(OBJ_FOLDER)%.o: $(SRC_FOLDER)%.cpp
+	$(CC) $(CXXFLAGS) -c $< -o $@ -I$(INCLUDE_FOLDER)
 
-$(EXECUTABLE): $(OBJ_FILES)
-	$(CC) $(LDFLAGS) $^ -o $@
-
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
-
-mem: $(EXECUTABLE)
-	valgrind --leak-check=full ./$(EXECUTABLE) 
-
-callgrind: $(EXECUTABLE)
-	valgrind --tool=callgrind ./$(EXECUTABLE) 
-
-cachegrind: $(EXECUTABLE)
-	valgrind --tool=cachegrind ./$(EXECUTABLE)
-
-gprof: $(EXECUTABLE)
-	./$(EXECUTABLE)
-	gprof -b ./$(EXECUTABLE) gmon.out
+all: $(OBJ)
+	$(CC) $(CXXFLAGS) -o $(BIN_FOLDER)$(TARGET) $(OBJ)
 
 clean:
-	rm -f $(OBJ_DIR)/*.o $(EXECUTABLE)
+	@rm -rf $(OBJ_FOLDER)* $(BIN_FOLDER)*
+
+run:
+	@$(TARGET) <filename>
+
+windows_clean:
+	del /S .\bin\*.exe
+	del /S .\obj\*.o

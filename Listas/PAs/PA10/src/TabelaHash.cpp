@@ -17,11 +17,11 @@ TabelaHash::~TabelaHash() {
     return;
 }
 
-string TabelaHash::getDado() const {
+std::string TabelaHash::getDado() const {
     return dado;
 }
 
-void TabelaHash::setDado(const string dado) {
+void TabelaHash::setDado(const std::string dado) {
     this->dado = dado;
     return;
 }

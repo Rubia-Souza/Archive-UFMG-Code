@@ -5,7 +5,7 @@
 
 class TabelaHash {
     private:
-        string dado = "";
+        std::string dado = "";
         bool vazio = true;
         bool retirada = false;
 
@@ -13,8 +13,8 @@ class TabelaHash {
         TabelaHash();
         virtual ~TabelaHash();
 
-        string getDado() const;
-        void setDado(const string dado);
+        std::string getDado() const;
+        void setDado(const std::string dado);
 
         bool estaVazio() const;
         void setVazio(const bool vazio);
