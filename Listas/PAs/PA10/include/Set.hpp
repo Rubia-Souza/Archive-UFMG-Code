@@ -4,8 +4,6 @@
 #include <string>
 #include "TabelaHash.hpp"
 
-using namespace std;
-
 class Set {
     private:
         unsigned int tamanhoInicial = 0;
@@ -17,9 +15,9 @@ class Set {
         Set(const unsigned int tamanho);
         virtual ~Set();
 
-        void inserir(const string palavra);
-        void remover(const string palavra);
-        bool pertence(const string palavra);
+        void inserir(const std::string dado);
+        void remover(const std::string dado);
+        bool pertence(const std::string dado);
         
         Set* intersecao(Set& outroSet);
         Set* uniao(Set& outroSet);
@@ -31,15 +29,14 @@ class Set {
 
         bool estaVazio(const unsigned int posicao);
         bool foiRetirada(const unsigned int posicao);
-        string getDado(const unsigned int posicao);
+        std::string getDado(const unsigned int posicao);
 
         void print();
 
     private:
-        int calcularHash(const string palavra);
+        int calcularHash(const std::string dado);
         void recriarHash(const unsigned int posicao);
         void ajustarTamanho(const unsigned int novoTamanho);
 };
-
 
 #endif

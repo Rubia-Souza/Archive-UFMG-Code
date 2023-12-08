@@ -23,10 +23,10 @@ Set::~Set() {
     return;
 }
 
-int Set::calcularHash(const string palavra) {
+int Set::calcularHash(const std::string dado) {
     int idHash = 0;
 
-    for(char caracter : palavra) {
+    for(char caracter : dado) {
         idHash = (idHash * 31 + static_cast<int>(caracter)) % tamanhoTabela;
     }
 
@@ -85,21 +85,21 @@ void Set::ajustarTamanho(const unsigned int novoTamanho) {
     return;
 }
 
-void Set::inserir(const string palavra) {
-    int posicaoAlvo = calcularHash(palavra);
+void Set::inserir(const std::string dado) {
+    int posicaoAlvo = calcularHash(dado);
     int i = 1;
 
-    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
         i++;
     }
 
     if(i > tamanhoTabela) {
         ajustarTamanho(2 * tamanhoTabela);
-        inserir(palavra);
+        inserir(dado);
     }
     else if(tabela[posicaoAlvo].estaVazio() || tabela[posicaoAlvo].foiRetirada()) {
-        tabela[posicaoAlvo].setDado(palavra);
+        tabela[posicaoAlvo].setDado(dado);
         tabela[posicaoAlvo].setVazio(false);
         tabela[posicaoAlvo].setRetirada(false);
 
@@ -109,16 +109,16 @@ void Set::inserir(const string palavra) {
     return;
 }
 
-void Set::remover(const string palavra) {
-    int posicaoAlvo = calcularHash(palavra);
+void Set::remover(const std::string dado) {
+    int posicaoAlvo = calcularHash(dado);
     int i = 1;
 
-    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
         i++;
     }
 
-    if(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == palavra) {
+    if(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == dado) {
         tabela[posicaoAlvo].setVazio(true);
         tabela[posicaoAlvo].setRetirada(true);
 
@@ -128,16 +128,16 @@ void Set::remover(const string palavra) {
     return;
 }
 
-bool Set::pertence(const string palavra) {
-    int posicaoAlvo = calcularHash(palavra);
+bool Set::pertence(const std::string dado) {
+    int posicaoAlvo = calcularHash(dado);
     int i = 1;
 
-    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != palavra && i <= tamanhoTabela) {
+    while(!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() != dado && i <= tamanhoTabela) {
         posicaoAlvo = (posicaoAlvo + i) % tamanhoTabela;
         i++;
     }
 
-    return (!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == palavra && !tabela[posicaoAlvo].foiRetirada());
+    return (!tabela[posicaoAlvo].estaVazio() && tabela[posicaoAlvo].getDado() == dado && !tabela[posicaoAlvo].foiRetirada());
 }
 
 Set* Set::intersecao(Set& outroConjunto) {
@@ -191,11 +191,11 @@ Set* Set::diferencaSimetrica(Set& outroConjunto) {
 void Set::print() {
     for(unsigned int i = 0; i < tamanhoTabela; i++) {
         if(!tabela[i].estaVazio() && !tabela[i].foiRetirada()) {
-            cout << tabela[i].getDado() << " ";
+            std::cout << tabela[i].getDado() << " ";
         }
     }
 
-    cout << endl;
+    std::cout << std::endl;
     return;
 }
 
@@ -219,6 +219,6 @@ bool Set::foiRetirada(const unsigned int posicao) {
     return tabela[posicao].foiRetirada();
 }
 
-string Set::getDado(const unsigned int posicao) {
+std::string Set::getDado(const unsigned int posicao) {
     return tabela[posicao].getDado();
 }

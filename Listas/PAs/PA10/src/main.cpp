@@ -1,9 +1,8 @@
-#include <bits/stdc++.h>
-
 #include <string>
-#include "Set.hpp"
+#include <iostream>
+#include <algorithm>
 
-using namespace std;
+#include "Set.hpp"
 
 const char COMANDO_INSERIR = 'i';
 const char COMANDO_REMOVER = 'r';
@@ -13,92 +12,86 @@ const char COMANDO_INTERSECAO = 't';
 const char COMANDO_DIFERENCA_SIMETRICA = 'd';
 const char COMANDO_IMPRIMIR = 'p';
 
-Set* LeConjunto(){
-    int n;
-    string k;
-    cin >> n;
-    Set* s = new Set(n);
-    for(int i = 0; i < n; i++){
-        cin >> k;
-        s->inserir(k);
-    }
-    return s;
-}
-
+Set* carregarConjuntoEntrada();
 
 int main(int argc, char** argv){
     int n;
-    char c;
-    string t;
+    char comando;
+    std::string dado = "";
 
-    cin >> n;
-    Set* s = new Set(1);
+    std::cin >> n;
+    Set* conjunto1 = new Set(1);
 
     for(int i = 0; i < n; i++){
-        cin >> c;
-        switch(c) {
+        std::cin >> comando;
+
+        switch(comando) {
             case(COMANDO_INSERIR): {
-                cin >> t;
-                s->inserir(t);
+                std::cin >> dado;
+                conjunto1->inserir(dado);
+
                 break;
             }
             case(COMANDO_REMOVER): {
-                cin >> t;
-                s->remover(t);
+                std::cin >> dado;
+                conjunto1->remover(dado);
+
                 break;
             }
             case(COMANDO_PERTENCE): {
-                cin >> t;
-                transform(t.begin(), t.end(), t.begin(), ::tolower);  // Converta a string para minúsculas.
+                std::cin >> dado;
+                std::transform(dado.begin(), dado.end(), dado.begin(), ::tolower);
                 
-                if(s->pertence(t)) {
-                    cout << "O elemento " << t << " pertence ao conjunto!\n";
+                if(conjunto1->pertence(dado)) {
+                    std::cout << "O elemento " << dado << " pertence ao conjunto!" << std::endl;
                 }
                 else {
-                    cout << "O elemento " << t << " nao pertence ao conjunto!\n";
+                    std::cout << "O elemento " << dado << " nao pertence ao conjunto!" << std::endl;
                 }
 
                 break;
             }
             case(COMANDO_UNIAO): {
-                cout << "A uniao dos conjuntos e: ";
-                Set* l = LeConjunto();
-                Set* u = s->uniao(*l);
+                std::cout << "A uniao dos conjuntos e: ";
+
+                Set* conjunto2 = carregarConjuntoEntrada();
+                Set* resultadoUniao = conjunto1->uniao(*conjunto2);
                 
-                u->print();
+                resultadoUniao->print();
                 
-                delete l;
-                delete u;
+                delete conjunto2;
+                delete resultadoUniao;
 
                 break;
             }
             case(COMANDO_INTERSECAO): {
-                cout << "A intersecao dos conjuntos e: ";
-                Set* l = LeConjunto();
-                Set* t = s->intersecao(*l);
+                std::cout << "A intersecao dos conjuntos e: ";
 
-                t->print();
+                Set* conjunto2 = carregarConjuntoEntrada();
+                Set* resultadoIntersecao = conjunto1->intersecao(*conjunto2);
 
-                delete l;
-                delete t;
+                resultadoIntersecao->print();
+
+                delete conjunto2;
+                delete resultadoIntersecao;
 
                 break;
             }
             case(COMANDO_DIFERENCA_SIMETRICA): {
-                cout << "A diferenca simetrica dos conjuntos e: ";
+                std::cout << "A diferenca simetrica dos conjuntos e: ";
                 
-                Set* l = LeConjunto();
-                Set* d = s->diferencaSimetrica(*l);
+                Set* conjunto2 = carregarConjuntoEntrada();
+                Set* resultadoDiferenca = conjunto1->diferencaSimetrica(*conjunto2);
                 
-                d->print();
+                resultadoDiferenca->print();
                 
-                delete l;
-                delete d;
+                delete conjunto2;
+                delete resultadoDiferenca;
                 
                 break;
             }
             case(COMANDO_IMPRIMIR): {
-                s->print();
+                conjunto1->print();
                 break;
             }
             default: {
@@ -107,7 +100,21 @@ int main(int argc, char** argv){
         }
     }
 
-    delete s;
+    delete conjunto1;
 
     return 0;
+}
+
+Set* carregarConjuntoEntrada() {
+    int n;
+    std::string dado;
+    std::cin >> n;
+
+    Set* conjuntoEntrada = new Set(n);
+    for(int i = 0; i < n; i++){
+        std::cin >> dado;
+        conjuntoEntrada->inserir(dado);
+    }
+
+    return conjuntoEntrada;
 }
