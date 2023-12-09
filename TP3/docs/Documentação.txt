@@ -1,0 +1,245 @@
+Integrantes do Grupo:
+
+        Nome: Rubia Alice Moreira de Souza
+        Matrícula: 2022043507
+
+        Nome: Igor Eduardo Martins Braga
+        Matrícula: 2022425671
+
+        Nome: Daniel Oliveira Barbosa
+        Matrícula: 2020006450
+
+Como executar o programa:
+
+        Para executar o programa, dê cd no seu terminal para o diretório raiz do projeto
+        
+        Agora, digite e execute a seguinte linha no seu terminal:
+
+                python3 <src/simulador.py> <cache size (bytes)> <line size (bytes)> <number of lines per group> <path/to/memory/access/file>
+
+        Veja que usamos python3 e o arquivo do nosso programa é o simulador.py (que está contido dentro do subdiretório src)
+
+        Depois disso, o usuário deve fornecer 4 argumentos:
+
+                <cache size (bytes)>
+        
+                        Aqui, pede-se o tamanho total da cache em bytes.
+
+                <line size (bytes)>
+
+                        Aqui, pede-se o tamanho total de uma linha da cache em bytes.
+
+                <number of lines per group>
+
+                        Aqui, pede-se o tamanho de cada grupo em unidades, ou seja, o número de linhas por grupo.
+
+                <path/to/memory/access/file>
+
+                        Aqui, pede-se o path para o arquivo de acesso á memória. Isso dependerá de onde o usuário salvar o arquivo.
+
+Saída:
+
+        Ao final da execução, o programa escreverá em um arquivo chamado output.txt o estado atual da cache após cada acesso à memória.
+
+        Juntamente a isso, também escreverá no final do arquivo o número de hits e misses durante os acessos à memória.
+
+        Se o comando de terminal tiver sido feito no diretório raiz do projeto, o arquivo de output será gerado lá também.
+
+Exemplos de execução do programa:
+
+        OBS.: Assumindo que o usuário esteja no diretório raiz do projeto
+        
+        Exemplo 1: cache de tamanho 4K, linhas de tamanho 1K e associatividade completa
+
+                Comando que deve ser escrito no terminal:
+        
+                        python3 src/simulador.py 4096 1024 4 ./exemplos/3/input.txt
+
+                Entrada: ./exemplos/3/input.txt
+
+                        0x0CB886CA
+                        0x06BC89BA
+                        0x379CBAD1
+                        0x28F3123B
+                        0x06F98ED5
+                        0x06F98ED8
+                        0x17AA08A2
+
+                Saída: output.txt (gerado na raiz do projeto)
+
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 0
+                        002 0
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x0001AF22
+                        002 0
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x0001AF22
+                        002 1 0x000DE72E
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x0001AF22
+                        002 1 0x000DE72E
+                        003 1 0x000A3CC4
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x0001BE63
+                        001 1 0x0001AF22
+                        002 1 0x000DE72E
+                        003 1 0x000A3CC4
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x0001BE63
+                        001 1 0x0001AF22
+                        002 1 0x000DE72E
+                        003 1 0x000A3CC4
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x0001BE63
+                        001 1 0x0005EA82
+                        002 1 0x000DE72E
+                        003 1 0x000A3CC4
+
+                        #hits: 1
+                        #miss: 6
+
+        Exemplo 2: cache de tamanho 4K, linhas de tamanho 1K e associatividade 2-way
+
+                Comando que deve ser escrito no terminal:
+        
+                        python3 src/simulador.py 4096 1024 2 ./exemplos/3/input.txt
+
+                Entrada: ./exemplos/3/input.txt
+
+                        0x0CB886CA
+                        0x06BC89BA
+                        0x379CBAD1
+                        0x28F3123B
+                        0x06F98ED5
+                        0x06F98ED8
+                        0x17AA08A2
+
+                Saída: output.txt (gerado na raiz do projeto)
+
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 0
+                        002 0
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 0
+                        002 1 0x0001AF22
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 0
+                        002 1 0x0001AF22
+                        003 1 0x000DE72E
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x000A3CC4
+                        002 1 0x0001AF22
+                        003 1 0x000DE72E
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x000A3CC4
+                        002 1 0x0001BE63
+                        003 1 0x000DE72E
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x000A3CC4
+                        002 1 0x0001BE63
+                        003 1 0x000DE72E
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x00032E21
+                        001 1 0x000A3CC4
+                        002 1 0x0001BE63
+                        003 1 0x0005EA82
+
+                        #hits: 1
+                        #miss: 6
+        
+        Exemplo 3: cache de tamanho 4K, linhas de tamanho 1K e mapeamento direto
+
+                Comando que deve ser escrito no terminal:
+        
+                        python3 src/simulador.py 4096 1024 1 ./exemplos/3/input.txt
+
+                Entrada: ./exemplos/3/input.txt
+
+                        0x0CB886CA
+                        0x06BC89BA
+                        0x379CBAD1
+                        0x28F3123B
+                        0x06F98ED5
+                        0x06F98ED8
+                        0x17AA08A2
+
+                Saída: output.txt (gerado na raiz do projeto)
+
+                        ================
+                        IDX V ** ADDR **
+                        000 0
+                        001 1 0x00032E21
+                        002 0
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 0
+                        001 1 0x00032E21
+                        002 1 0x0001AF22
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 0
+                        001 1 0x00032E21
+                        002 1 0x000DE72E
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x000A3CC4
+                        001 1 0x00032E21
+                        002 1 0x000DE72E
+                        003 0
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x000A3CC4
+                        001 1 0x00032E21
+                        002 1 0x000DE72E
+                        003 1 0x0001BE63
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x000A3CC4
+                        001 1 0x00032E21
+                        002 1 0x000DE72E
+                        003 1 0x0001BE63
+                        ================
+                        IDX V ** ADDR **
+                        000 1 0x000A3CC4
+                        001 1 0x00032E21
+                        002 1 0x0005EA82
+                        003 1 0x0001BE63
+
+                        #hits: 1
+                        #miss: 6
+
+
+
