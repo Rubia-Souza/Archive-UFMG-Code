@@ -1,0 +1,85 @@
+<!-- Esse arquivo é um modelo para todos os outros. Aqui podem ser feitas alterações no cabeçalho entre outras -->
+{% load static %} {% load livereload_tags%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}OW! Remédio{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'main_app/css/layout.css' %}?v=1" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+      integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <script
+      src="https://unpkg.com/react@17/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <link href="{% static 'main_app/css/styles.css' %}" rel="stylesheet" />
+    {% block script %} {% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <div class="nav-bar-layout">
+        <a class="navbar-brand" id="brand" href="{% url 'index' %}">OW! Remédio</a>
+
+        <div>
+          <ul class="navbar-nav mr-auto">
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+
+              <div class="dropdown">
+                <img src="{% static '/img/Test Account.png' %}" alt="Dropdown" onclick="toggleDropdown()">
+                <div class="dropdown-content">
+                  <div class="username"><p>{{ user.username }}</p></div>
+                  <a class="nav-link1" href="{% url 'profile' request.user.username %}"><img src="{% static '/img/User.svg' %}" alt="">Perfil</a>
+                  <a class="nav-link1" href="{% url 'logout' %}"><img src="{% static '/img/Logout.svg' %}" alt="">Sair</a>
+                </div>
+              </div>
+
+              <script>
+                function toggleDropdown() {
+                    var dropdown = document.querySelector('.dropdown');
+                    dropdown.classList.toggle('clicked');
+                }
+                window.onclick = function(event) {
+                    if (!event.target.matches('.dropdown img')) {
+                        var dropdowns = document.getElementsByClassName("dropdown-content");
+                        for (var i = 0; i < dropdowns.length; i++) {
+                            var openDropdown = dropdowns[i];
+                            if (openDropdown.style.display === "block") {
+                                openDropdown.style.display = "none";
+                            }
+                        }
+                    }
+                }
+              </script>
+            </li>
+            {% endif %} {% if user.is_authenticated %}
+      
+            {% else %}
+            <li class="nav-item">
+              <a class="btn btn-primary" href="{% url 'register' %}"
+                >Cadastrar</a
+              >
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="body">{% block body %} {% endblock %}</div>
+  </body>
+</html>
