@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Debug apps/pmy.py",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/Driver.py", //specifies the file you want to debug
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"  //add the workspace folder to the PYTHONPATH.
+            },
+            "justMyCode": false
+        }
+    ]
+}
